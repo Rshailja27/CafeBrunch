@@ -10,69 +10,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
+import Switch from '@mui/material/Switch';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import SearchItems from './SearchItems';
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.8),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.8),
-  },
-  marginRight: '0.5rem',
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(5),
-    width: '280px',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'black',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 1),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
 
 function AppNavigationBar({ showCategory, menuList, numCount, handleThemeChange, handleFoodSearch }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+  const [darkMode, setDarkMode] = useState(false);
+  
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -81,15 +31,20 @@ function AppNavigationBar({ showCategory, menuList, numCount, handleThemeChange,
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSwitch = () =>{
+    const newThemeMode = darkMode ? 'light':'dark';
+    setDarkMode(!darkMode);
+    handleTheme(newThemeMode);
   };
 
   const handleTheme = (themeMode) => {
     handleThemeChange(themeMode); // Invoke the function passed from props
     handleClose();
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -148,73 +103,13 @@ function AppNavigationBar({ showCategory, menuList, numCount, handleThemeChange,
               </Button>
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Menu
-              sx={{ mt: '30px' }}
-              id="menu-appbar"
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            ></Menu>
-          </Box>
-
-          <form onSubmit={handleSubmit}>
-            <Search>
-              <SearchIconWrapper>
-                <IconButton type="submit">
-                  <SearchIcon style={{ color: '#616161' }} />
-                </IconButton>
-              </SearchIconWrapper>
-              <StyledInputBase
-                name="foodName"
-                placeholder="Search Food items…"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-          </form>
-
+            <SearchItems handleSubmit={handleSubmit}/>
           <IconButton aria-label="cart">
             <Badge badgeContent={numCount} color="primary">
               <ShoppingCartIcon style={{ color: '#fff' }} />
             </Badge>
           </IconButton>
-
-          <IconButton
-            aria-label="more"
-            id="demo-positioned-button"
-            aria-controls={open ? 'demo-positioned-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          >
-            <MoreIcon style={{ color: '#fff' }} />
-          </IconButton>
-          <Menu
-            id="demo-positioned-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            <MenuItem onClick={() => handleTheme('dark')}>Dark Theme</MenuItem>
-            <MenuItem onClick={() => handleTheme('light')}>Light Theme</MenuItem>
-          </Menu>
+            <Switch style={{ color: '#fff' }} onChange={handleSwitch}/>             
         </Toolbar>
       </Container>
     </AppBar>
