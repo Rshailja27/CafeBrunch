@@ -46,12 +46,12 @@ function MenuCard({ foodMenu, handleIsLike, incrCount}) {
               />
               <CardContent>
                 <Typography variant="body2" color="text.secondary" component="span">
-                  <b>Price : { price }&#8377;</b>
+                  <b>Price : &#8377;{ price }</b>
                   <br/>
                   { description }            
                 </Typography>
               </CardContent>
-              <CardActions  sx={{ marginTop: '-0.9rem' }} disableSpacing>            
+              <CardActions disableSpacing>            
                 <Box sx={{ display: 'flex',
                     justifyContent: 'space-between',
                     width: '100%', padding: '0 8px' 

@@ -1,6 +1,6 @@
 import {React, useState} from 'react';
 import MenuCard from './MenuCard';
-import AppNavigationBar from './AppNavigationBar';
+import MenuBar from './MenuBar';
 import FoodItemsMenu from "./MenuApi";
 
 const categories = [
@@ -61,7 +61,7 @@ const [numCount, setNumCount] = useState(0);
    
   return (
     <>
-      <AppNavigationBar showCategory={ showCategory } 
+      <MenuBar showCategory={ showCategory } 
       menuList={ menuList } numCount={numCount}
       handleThemeChange={handleThemeChange}
       handleFoodSearch={handleFoodSearch}      
